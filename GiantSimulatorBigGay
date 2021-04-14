@@ -210,6 +210,13 @@ MainButton.Font = Enum.Font.GothamSemibold
 MainButton.Text = "Main"
 MainButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 MainButton.TextSize = 14.000
+MainButton.MouseButton1Click:Connect(function()
+	MainTab.Visible = true
+	QuestTab.Visible = false
+	AutoBuyTab.Visible = false
+	MiscTab.Visible = false
+	WelcomeTab.Visible = false
+end)
 
 UICorner_4.Parent = MainButton
 
@@ -222,6 +229,13 @@ QuestButton.Font = Enum.Font.GothamSemibold
 QuestButton.Text = "Quest"
 QuestButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 QuestButton.TextSize = 14.000
+QuestButton.MouseButton1Click:Connect(function()
+	MainTab.Visible = false
+	QuestTab.Visible = true
+	AutoBuyTab.Visible = false
+	MiscTab.Visible = false
+	WelcomeTab.Visible = false
+end)
 
 UICorner_5.Parent = QuestButton
 
@@ -234,6 +248,13 @@ AutoBuyButton.Font = Enum.Font.GothamSemibold
 AutoBuyButton.Text = "AutoBuy"
 AutoBuyButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 AutoBuyButton.TextSize = 14.000
+AutoBuyButton.MouseButton1Click:Connect(function()
+	MainTab.Visible = false
+	QuestTab.Visible = false
+	AutoBuyTab.Visible = true
+	MiscTab.Visible = false
+	WelcomeTab.Visible = false
+end)
 
 UICorner_6.Parent = AutoBuyButton
 
@@ -246,6 +267,13 @@ MiscButton.Font = Enum.Font.GothamSemibold
 MiscButton.Text = "Misc"
 MiscButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 MiscButton.TextSize = 14.000
+MiscButton.MouseButton1Click:Connect(function()
+	MainTab.Visible = false
+	QuestTab.Visible = false
+	AutoBuyTab.Visible = false
+	MiscTab.Visible = true
+	WelcomeTab.Visible = false
+end)
 
 UICorner_7.Parent = MiscButton
 
@@ -457,6 +485,29 @@ AutoSwingToggle.Font = Enum.Font.GothamSemibold
 AutoSwingToggle.Text = "Auto Swing"
 AutoSwingToggle.TextColor3 = Color3.fromRGB(255, 255, 255)
 AutoSwingToggle.TextSize = 20.000
+local on = false
+
+AutoSwingToggle.MouseButton1Click:Connect(function()
+	on = not on
+	if on then
+		AutoSwingToggleGreen.Visible = false
+		AutoSwingToggleRed.Visible = true
+		on = true
+		_G.SwingLoop = true
+		while _G.SwingLoop do
+			wait()
+			game.ReplicatedStorage.Aero.AeroRemoteServices.GameService.WeaponAttackStart:FireServer()
+			game.ReplicatedStorage.Aero.AeroRemoteServices.GameService.WeaponAnimComplete:FireServer()
+		end
+	end
+	if on == false then
+		AutoSwingToggleRed.Visible = false
+		AutoSwingToggleGreen.Visible = true
+		on = false
+		_G.SwingLoop = false
+	end
+end)
+
 
 UICorner_24.CornerRadius = UDim.new(0, 10)
 UICorner_24.Parent = AutoSwingToggle
@@ -527,6 +578,30 @@ AutoArenaToggle.Font = Enum.Font.GothamSemibold
 AutoArenaToggle.Text = "Auto Arena"
 AutoArenaToggle.TextColor3 = Color3.fromRGB(255, 255, 255)
 AutoArenaToggle.TextSize = 20.000
+local on = false
+
+AutoArenaToggle.MouseButton1Click:Connect(function()
+	on = not on
+	if on then
+		AutoArenaToggleGreen.Visible = false
+		AutoArenaToggleRed.Visible = true
+		on = true
+		_G.Arena = true
+
+		while _G.Arena do
+			wait()
+			local A_1 = true
+			game:GetService("ReplicatedStorage").Aero.AeroRemoteServices.ArenaService.ArenaChoice:FireServer(A_1)
+		end
+	end
+	if on == false then
+		AutoArenaToggleGreen.Visible = true
+		AutoArenaToggleRed.Visible = false
+		on = false
+		_G.Arena = false
+	end
+end)
+
 
 UICorner_29.CornerRadius = UDim.new(0, 10)
 UICorner_29.Parent = AutoArenaToggle
@@ -584,6 +659,33 @@ AutoBossToggle.Font = Enum.Font.GothamSemibold
 AutoBossToggle.Text = "Auto Boss"
 AutoBossToggle.TextColor3 = Color3.fromRGB(255, 255, 255)
 AutoBossToggle.TextSize = 20.000
+local on = false
+
+AutoBossToggle.MouseButton1Click:Connect(function()
+	on = not on
+	if on then
+		AutoBossToggleGreen.Visible = false
+		AutoBossToggleRed.Visible = true
+		on = true
+		_G.AutoBorock = true
+
+		while _G.AutoBorock do
+			wait()
+			for i,v in pairs(game:GetService("Workspace").NPC:GetDescendants()) do
+				if v.ClassName == "Model" and v.Name == "Borock" then
+					game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = v.HumanoidRootPart.CFrame
+				end
+			end
+		end
+	end
+	if on == false then
+		AutoBossToggleGreen.Visible = true
+		AutoBossToggleRed.Visible = false
+		on = false
+		_G.AutoBorock = false
+	end
+end)
+
 
 UICorner_34.CornerRadius = UDim.new(0, 10)
 UICorner_34.Parent = AutoBossToggle
@@ -641,6 +743,32 @@ AutoDemonToggle.Font = Enum.Font.GothamSemibold
 AutoDemonToggle.Text = "Auto Demon"
 AutoDemonToggle.TextColor3 = Color3.fromRGB(255, 255, 255)
 AutoDemonToggle.TextSize = 20.000
+local on = false
+
+AutoDemonToggle.MouseButton1Click:Connect(function()
+	on = not on
+	if on then
+		AutoDemonToggleGreen.Visible = false
+		AutoDemonToggleRed.Visible = true
+		on = true
+		_G.AutoDemonKing = true
+
+		while _G.AutoDemonKing do
+			wait()
+			for i,v in pairs(game:GetService("Workspace").NPC:GetDescendants()) do
+				if v.ClassName == "Model" and v.Name == "DemonKing" then
+					game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = v.HumanoidRootPart.CFrame
+				end
+			end
+		end
+	end
+	if on == false then
+		AutoDemonToggleGreen.Visible = true
+		AutoDemonToggleRed.Visible = false
+		on = false
+		_G.AutoDemonKing = false
+	end
+end)
 
 UICorner_39.CornerRadius = UDim.new(0, 10)
 UICorner_39.Parent = AutoDemonToggle
@@ -665,6 +793,15 @@ InstantQuestButton.Font = Enum.Font.GothamSemibold
 InstantQuestButton.Text = "Instant Quest"
 InstantQuestButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 InstantQuestButton.TextSize = 20.000
+InstantQuestButton.MouseButton1Click:Connect(function()
+	for i = 50, 250 do
+		local Event = game:GetService("ReplicatedStorage").Aero.AeroRemoteServices.GameService.StartQuestRequest
+		Event:InvokeServer()
+		wait()
+		local Event = game:GetService("ReplicatedStorage").Aero.AeroRemoteServices.GameService.EndQuestRequest
+		Event:InvokeServer()
+	end
+end)
 
 UICorner_41.CornerRadius = UDim.new(0, 10)
 UICorner_41.Parent = InstantQuestButton
@@ -691,6 +828,13 @@ GoldenEggButton.Font = Enum.Font.GothamSemibold
 GoldenEggButton.Text = "TP Golden Egg"
 GoldenEggButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 GoldenEggButton.TextSize = 20.000
+GoldenEggButton.MouseButton1Click:connect(function()
+	for i,v in pairs(game.Workspace:GetChildren())do
+		if v.Name == "Egg" then
+			v.CFrame = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame
+		end
+	end
+end)
 
 UICorner_42.CornerRadius = UDim.new(0, 10)
 UICorner_42.Parent = GoldenEggButton
@@ -715,6 +859,11 @@ _100KWeapon.Font = Enum.Font.GothamSemibold
 _100KWeapon.Text = "100K Weapon"
 _100KWeapon.TextColor3 = Color3.fromRGB(255, 255, 255)
 _100KWeapon.TextSize = 20.000
+_100KWeapon.MouseButton1Click:connect(function()
+	local A_1 = "weapon"
+	local Event = game:GetService("ReplicatedStorage").Aero.AeroRemoteServices.GameService.OpenLegendaryCrate
+	Event:InvokeServer(A_1)
+end)
 
 UICorner_44.CornerRadius = UDim.new(0, 10)
 UICorner_44.Parent = _100KWeapon
@@ -741,6 +890,12 @@ _100KSkin.Font = Enum.Font.GothamSemibold
 _100KSkin.Text = "100K Skin"
 _100KSkin.TextColor3 = Color3.fromRGB(255, 255, 255)
 _100KSkin.TextSize = 20.000
+_100KSkin.MouseButton1Click:connect(function()
+	local A_1 = "skin"
+	local Event = game:GetService("ReplicatedStorage").Aero.AeroRemoteServices.GameService.OpenLegendaryCrate
+	Event:InvokeServer(A_1)
+end)
+
 
 UICorner_45.CornerRadius = UDim.new(0, 10)
 UICorner_45.Parent = _100KSkin
@@ -754,6 +909,11 @@ _10MSkin.Font = Enum.Font.GothamSemibold
 _10MSkin.Text = "10M Skin"
 _10MSkin.TextColor3 = Color3.fromRGB(255, 255, 255)
 _10MSkin.TextSize = 20.000
+_10MSkin.MouseButton1Click:connect(function()
+	local A_1 = "skin"
+	local Event = game:GetService("ReplicatedStorage").Aero.AeroRemoteServices.GameService.OpenMythicCrate
+	Event:InvokeServer(A_1)
+end)
 
 UICorner_46.CornerRadius = UDim.new(0, 10)
 UICorner_46.Parent = _10MSkin
@@ -767,6 +927,11 @@ _50MWeapon.Font = Enum.Font.GothamSemibold
 _50MWeapon.Text = "50M Weapon"
 _50MWeapon.TextColor3 = Color3.fromRGB(255, 255, 255)
 _50MWeapon.TextSize = 20.000
+_50MWeapon.MouseButton1Click:connect(function()
+	local A_1 = "Weapon"
+	local Event = game:GetService("ReplicatedStorage").Aero.AeroRemoteServices.GameService.OpenMythicCrate
+	Event:InvokeServer(A_1)
+end)
 
 UICorner_47.CornerRadius = UDim.new(0, 10)
 UICorner_47.Parent = _50MWeapon
@@ -780,6 +945,11 @@ _20MPet.Font = Enum.Font.GothamSemibold
 _20MPet.Text = "20M Pet"
 _20MPet.TextColor3 = Color3.fromRGB(255, 255, 255)
 _20MPet.TextSize = 20.000
+_20MPet.MouseButton1Click:connect(function()
+	local A_1 = "Pet"
+	local Event = game:GetService("ReplicatedStorage").Aero.AeroRemoteServices.GameService.OpenMythicCrate
+	Event:InvokeServer(A_1)
+end)
 
 UICorner_48.CornerRadius = UDim.new(0, 10)
 UICorner_48.Parent = _20MPet
@@ -804,6 +974,9 @@ _2KPet.Font = Enum.Font.GothamSemibold
 _2KPet.Text = "2K Eggs Pet"
 _2KPet.TextColor3 = Color3.fromRGB(255, 255, 255)
 _2KPet.TextSize = 20.000
+_2KPet.MouseButton1Click:Connect(function()
+	game:GetService("ReplicatedStorage").Aero.AeroRemoteServices.GameService.OpenPetCrate:InvokeServer(6)
+end)
 
 UICorner_50.CornerRadius = UDim.new(0, 10)
 UICorner_50.Parent = _2KPet
@@ -830,6 +1003,9 @@ _2KSpell.Font = Enum.Font.GothamSemibold
 _2KSpell.Text = "2K Eggs Spells "
 _2KSpell.TextColor3 = Color3.fromRGB(255, 255, 255)
 _2KSpell.TextSize = 20.000
+_2KSpell.MouseButton1Click:Connect(function()
+	game:GetService("ReplicatedStorage").Aero.AeroRemoteServices.GameService.OpenArtifactCrate:InvokeServer(4)
+end)
 
 UICorner_51.CornerRadius = UDim.new(0, 10)
 UICorner_51.Parent = _2KSpell
@@ -887,6 +1063,34 @@ AutoEggsToggle.Font = Enum.Font.GothamSemibold
 AutoEggsToggle.Text = "Auto Eggs"
 AutoEggsToggle.TextColor3 = Color3.fromRGB(255, 255, 255)
 AutoEggsToggle.TextSize = 20.000
+local on = false
+
+AutoEggsToggle.MouseButton1Click:Connect(function()
+	on = not on
+	if on then
+		AutoEggsToggleGreen.Visible = false
+		AutoEggsToggleRed.Visible = true
+		on = true
+		_G.loop = true
+
+		while _G.loop do
+			for i,v in pairs(game.Workspace.Scene:GetDescendants()) do
+				if v.Name == "ResourceNode" then
+					game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.CFrame
+					game.Players.LocalPlayer.Character.Humanoid.Jump = true
+					wait(1)
+				end
+			end
+			wait(10)
+		end
+	end
+	if on == false then
+		AutoEggsToggleGreen.Visible = true
+		AutoEggsToggleRed.Visible = false
+		on = false
+		_G.loop = false
+	end
+end)
 
 UICorner_56.CornerRadius = UDim.new(0, 10)
 UICorner_56.Parent = AutoEggsToggle
@@ -927,15 +1131,27 @@ local on = false
 Visible.MouseButton1Click:Connect(function()
 	on = not on
 	if on then
-		Visible.ImageColor3 = Color3.fromRGB(0,225,0)
+		Visible.BackgroundColor3 = Color3.fromRGB(0,225,0)
 		on = true
 		Main:TweenSize(UDim2.new(0, 0, 0, 0), "Out", "Quint", 0.5)
+		Tabs.Visible = false
+		WelcomeTab.Visible = false
 	end
 	if on == false then
-		Visible.ImageColor3 = Color3.fromRGB(225,0,0)
+		Visible.BackgroundColor3 = Color3.fromRGB(225,0,0)
 		on = false
-		Main:TweenSize(UDim2.new(0, 300,0, 180), "Out", "Quint", 0.5)
+		Main:TweenSize(UDim2.new(0, 530, 0, 329), "Out", "Quint", 0.5)
+		wait(0.3)
+		Main:TweenSize(UDim2.new(0, 530, 0, 329), "Out", "Quint", 0.5)
+		Tabs.Visible = true
 	end
+end)
+
+Visible.MouseButton1Click:Connect(function()
+	MainTab.Visible = false
+	QuestTab.Visible = false
+	AutoBuyTab.Visible = false
+	MiscTab.Visible = false
 end)
 
 UICorner_58.CornerRadius = UDim.new(1, 30)
@@ -950,7 +1166,9 @@ local textlabel = Welcome
 
 local function typewrite(object,text)
 	for i = 1, #text,1 do
-		object.Text = string.sub(text,1,i)
+		object.Text = string.sub(text, 1, i)
+
+		wait(0.5)
 	end
 end
 
